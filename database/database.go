@@ -28,4 +28,20 @@ func ConnectDB() {
 	}
 
 	fmt.Println("Berhasil connect ke database!")
+
+	// 🔥 Auto-create table bioskop jika belum ada
+	createTableSQL := `
+	CREATE TABLE IF NOT EXISTS bioskop (
+		id SERIAL PRIMARY KEY,
+		nama VARCHAR(255) NOT NULL,
+		lokasi VARCHAR(255) NOT NULL,
+		rating NUMERIC(2,1)
+	);`
+
+	_, err = DB.Exec(createTableSQL)
+	if err != nil {
+		panic("Gagal membuat table bioskop: " + err.Error())
+	}
+
+	fmt.Println("Table 'bioskop' siap digunakan!")
 }
